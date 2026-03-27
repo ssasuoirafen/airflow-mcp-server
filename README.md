@@ -1,6 +1,6 @@
 # airflow-mcp-server
 
-MCP server for Apache Airflow 2.x REST API. Lightweight, no auto-generated clients - direct HTTP calls via `httpx`.
+MCP server for Apache Airflow 2.x REST API.
 
 ## Tools
 
