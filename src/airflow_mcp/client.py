@@ -165,6 +165,7 @@ class AirflowClient:
         only_failed: bool = False,
     ) -> dict:
         body: dict = {
+            "dry_run": False,
             "task_ids": task_ids,
             "include_downstream": downstream,
             "include_upstream": upstream,
