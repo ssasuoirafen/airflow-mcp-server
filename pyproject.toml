@@ -1,0 +1,28 @@
+[project]
+name = "airflow-mcp-server"
+version = "0.1.0"
+description = "MCP server for Apache Airflow 2.x REST API"
+requires-python = ">=3.12"
+dependencies = [
+    "mcp[cli]>=1.9.0",
+    "httpx>=0.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.25.0",
+]
+
+[project.scripts]
+airflow-mcp = "airflow_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/airflow_mcp"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
