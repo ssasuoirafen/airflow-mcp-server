@@ -20,25 +20,7 @@ MCP server for Apache Airflow 2.x REST API. Lightweight, no auto-generated clien
 | `list_variables` | List Airflow variables |
 | `get_variable` | Get a variable value |
 
-## Setup
-
-Requires Python 3.12+.
-
-```bash
-git clone https://github.com/ssasuoirafen/airflow-mcp-server.git
-cd airflow-mcp-server
-uv sync
-```
-
 ## Configuration
-
-Environment variables:
-
-| Variable | Description |
-|----------|-------------|
-| `AIRFLOW_BASE_URL` | Airflow REST API base URL (e.g. `https://airflow.example.com/api/v1`) |
-| `AIRFLOW_USERNAME` | Basic auth username |
-| `AIRFLOW_PASSWORD` | Basic auth password |
 
 ### Claude Code (`.mcp.json`)
 
@@ -46,8 +28,8 @@ Environment variables:
 {
   "mcpServers": {
     "airflow": {
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/airflow-mcp-server", "airflow-mcp"],
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/ssasuoirafen/airflow-mcp-server", "airflow-mcp"],
       "env": {
         "AIRFLOW_BASE_URL": "https://airflow.example.com/api/v1",
         "AIRFLOW_USERNAME": "your-username",
@@ -58,9 +40,17 @@ Environment variables:
 }
 ```
 
+| Variable | Description |
+|----------|-------------|
+| `AIRFLOW_BASE_URL` | Airflow REST API base URL (e.g. `https://airflow.example.com/api/v1`) |
+| `AIRFLOW_USERNAME` | Basic auth username |
+| `AIRFLOW_PASSWORD` | Basic auth password |
+
 ## Development
 
 ```bash
+git clone https://github.com/ssasuoirafen/airflow-mcp-server.git
+cd airflow-mcp-server
 uv sync --extra dev
 uv run pytest tests/ -v
 ```
