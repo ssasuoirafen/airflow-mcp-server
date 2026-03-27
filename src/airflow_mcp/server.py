@@ -230,7 +230,8 @@ async def clear_task(
     upstream: also clear upstream tasks (default: false).
     only_failed: only clear failed tasks (default: false).
     """
-    data = await _client().clear_task_instances(
+    client = _client()
+    data = await client.clear_task_instances(
         dag_id=dag_id,
         task_ids=[task_id],
         dag_run_id=dag_run_id,
@@ -238,6 +239,9 @@ async def clear_task(
         upstream=upstream,
         only_failed=only_failed,
     )
+    # Reset DAG run state so scheduler picks up cleared tasks
+    if dag_run_id:
+        await client.set_dag_run_state(dag_id, dag_run_id, "queued")
     tasks = data.get("task_instances", [])
     result = []
     for t in tasks:

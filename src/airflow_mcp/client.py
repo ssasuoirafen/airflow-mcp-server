@@ -112,6 +112,11 @@ class AirflowClient:
     async def get_dag_run(self, dag_id: str, dag_run_id: str) -> dict:
         return await self._get(f"/dags/{dag_id}/dagRuns/{dag_run_id}")
 
+    async def set_dag_run_state(self, dag_id: str, dag_run_id: str, state: str) -> dict:
+        return await self._patch(
+            f"/dags/{dag_id}/dagRuns/{dag_run_id}", json={"state": state}
+        )
+
     # --- Task Instances ---
 
     async def list_task_instances(
