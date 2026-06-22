@@ -47,7 +47,7 @@ Run it straight from GitHub - no clone needed (`uvx` fetches and runs it):
       "args": [
         "--from",
         "git+https://github.com/ssasuoirafen/airflow-mcp-server",
-        "airflow-mcp-server"
+        "airflow-mcp"
       ],
       "env": {
         "AIRFLOW_MCP_BASE_URL": "http://localhost:8080",
@@ -65,10 +65,12 @@ For local development, point at a checkout instead:
 
 ```json
 "command": "uv",
-"args": ["run", "--directory", "C:\\path\\to\\airflow-mcp-server", "airflow-mcp-server"]
+"args": ["run", "--directory", "C:\\path\\to\\airflow-mcp-server", "airflow-mcp"]
 ```
 
-If published to PyPI later, this simplifies to `"command": "uvx", "args": ["airflow-mcp-server"]`.
+The package also installs an `airflow-mcp-server` executable (same thing) for the longer name.
+
+If published to PyPI later, this simplifies to `"command": "uvx", "args": ["airflow-mcp"]`.
 
 ## Development
 
@@ -76,7 +78,7 @@ If published to PyPI later, this simplifies to `"command": "uvx", "args": ["airf
 uv sync                # install deps
 uv run pytest          # unit tests (mocked, no network)
 uv run pytest -m e2e   # opt-in live test; needs a .env pointing at a real Airflow 2
-uv run airflow-mcp-server   # run the server (expects an MCP client on stdio)
+uv run airflow-mcp          # run the server (expects an MCP client on stdio)
 ```
 
 ## Roadmap

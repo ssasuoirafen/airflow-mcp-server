@@ -27,6 +27,7 @@ dependencies = [
 ]
 
 [project.scripts]
+airflow-mcp = "airflow_mcp_server:main"
 airflow-mcp-server = "airflow_mcp_server:main"
 
 [build-system]
