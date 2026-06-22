@@ -37,14 +37,18 @@ clashing with Airflow's own env). See [`.env.example`](.env.example).
 
 ## Use with Claude
 
-Until published to PyPI, point your MCP client at the local checkout:
+Run it straight from GitHub - no clone needed (`uvx` fetches and runs it):
 
 ```json
 {
   "mcpServers": {
     "airflow": {
-      "command": "uv",
-      "args": ["run", "--directory", "C:\\path\\to\\airflow-mcp-server", "airflow-mcp-server"],
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/ssasuoirafen/airflow-mcp-server",
+        "airflow-mcp-server"
+      ],
       "env": {
         "AIRFLOW_MCP_BASE_URL": "http://localhost:8080",
         "AIRFLOW_MCP_USERNAME": "airflow",
@@ -55,7 +59,16 @@ Until published to PyPI, point your MCP client at the local checkout:
 }
 ```
 
-Once published, this simplifies to `"command": "uvx", "args": ["airflow-mcp-server"]`.
+Pin a version by appending a ref, e.g. `git+https://github.com/ssasuoirafen/airflow-mcp-server@v0.1.0`.
+
+For local development, point at a checkout instead:
+
+```json
+"command": "uv",
+"args": ["run", "--directory", "C:\\path\\to\\airflow-mcp-server", "airflow-mcp-server"]
+```
+
+If published to PyPI later, this simplifies to `"command": "uvx", "args": ["airflow-mcp-server"]`.
 
 ## Development
 
