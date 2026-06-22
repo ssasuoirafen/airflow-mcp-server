@@ -21,9 +21,9 @@ from .errors import AirflowError
 mcp = FastMCP(
     name="airflow-mcp-server",
     instructions=(
-        "Inspect and operate Apache Airflow (2.x today, 3.x planned) over its REST "
-        "API. Read tools are always safe. Write tools (trigger, pause, clear) honor "
-        "a server-side read-only switch and are absent when it is on."
+        "Inspect and operate Apache Airflow 2 over its REST API. Read tools are "
+        "always safe. Write tools (trigger, pause, clear) honor a server-side "
+        "read-only switch and refuse when it is enabled."
     ),
 )
 
@@ -63,3 +63,16 @@ def airflow_errors() -> Iterator[None]:
         yield
     except AirflowError as exc:
         raise ToolError(str(exc)) from exc
+
+
+def require_writable() -> None:
+    """Refuse a write when the server is configured read-only (defense in depth).
+
+    Write tools also carry ``readOnlyHint=False`` so hosts can prompt, but this
+    is the hard stop regardless of host behavior.
+    """
+    if get_client().read_only:
+        raise ToolError(
+            "Server is in read-only mode (AIRFLOW_MCP_READ_ONLY=true); "
+            "this write operation is refused."
+        )

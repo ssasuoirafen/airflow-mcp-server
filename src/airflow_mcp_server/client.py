@@ -237,6 +237,55 @@ class AirflowClient:
         params = _params(limit=limit, offset=offset)
         return PoolList.model_validate(self._request("GET", "/pools", params=params))
 
+    # ---- writes -------------------------------------------------------------
+
+    def trigger_dag_run(
+        self,
+        dag_id: str,
+        *,
+        conf: dict[str, Any] | None = None,
+        logical_date: str | None = None,
+        dag_run_id: str | None = None,
+        note: str | None = None,
+    ) -> DagRun:
+        body = _params(
+            conf=conf, logical_date=logical_date, dag_run_id=dag_run_id, note=note
+        )
+        data = self._request("POST", f"/dags/{_seg(dag_id)}/dagRuns", json=body)
+        return DagRun.model_validate(data)
+
+    def set_dag_paused(self, dag_id: str, is_paused: bool) -> DagSummary:
+        data = self._request(
+            "PATCH", f"/dags/{_seg(dag_id)}", json={"is_paused": is_paused}
+        )
+        return DagSummary.model_validate(data)
+
+    def clear_task_instances(
+        self,
+        dag_id: str,
+        *,
+        dag_run_id: str | None = None,
+        task_ids: list[str] | None = None,
+        include_downstream: bool = False,
+        include_upstream: bool = False,
+        only_failed: bool = False,
+        dry_run: bool = False,
+    ) -> TaskInstanceList:
+        body: dict[str, Any] = {
+            "dry_run": dry_run,
+            "include_downstream": include_downstream,
+            "include_upstream": include_upstream,
+            "only_failed": only_failed,
+        }
+        if dag_run_id is not None:
+            body["dag_run_id"] = dag_run_id
+        if task_ids is not None:
+            body["task_ids"] = task_ids
+        data = self._request(
+            "POST", f"/dags/{_seg(dag_id)}/clearTaskInstances", json=body
+        )
+        return TaskInstanceList.model_validate(data)
+
     # ---- guard --------------------------------------------------------------
 
     def ensure_supported(self) -> None:

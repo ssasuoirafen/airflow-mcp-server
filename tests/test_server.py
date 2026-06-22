@@ -24,5 +24,8 @@ def test_expected_tools_are_registered() -> None:
         "list_task_instances",
         "get_task_instance",
         "get_task_logs",
+        "trigger_dag_run",
+        "set_dag_paused",
+        "clear_task_instances",
     }
     assert expected <= names

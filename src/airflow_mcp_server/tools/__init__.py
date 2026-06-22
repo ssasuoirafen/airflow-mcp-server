@@ -2,6 +2,6 @@
 
 from __future__ import annotations
 
-from . import dag_runs, dags, logs, system, task_instances
+from . import dag_runs, dags, logs, system, task_instances, writes
 
-__all__ = ["dag_runs", "dags", "logs", "system", "task_instances"]
+__all__ = ["dag_runs", "dags", "logs", "system", "task_instances", "writes"]

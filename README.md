@@ -12,10 +12,14 @@ own Airflow credentials, which keeps Airflow RBAC intact.
 
 ## Status
 
-Early. Currently implemented: connectivity tools (`get_airflow_version`,
-`get_airflow_health`) and the client foundation (auth, error mapping, an
-Airflow-2 guard). DAG / run / task-instance / logs tools and safe writes are
-next - see the roadmap below.
+Working read and write tools against Airflow 2; not yet published.
+
+**Read:** `get_airflow_version`, `get_airflow_health`, `list_pools`,
+`list_dags`, `get_dag`, `list_dag_runs`, `get_dag_run`, `list_task_instances`,
+`get_task_instance`, `get_task_logs`, `list_import_errors`.
+
+**Write** (refused when `AIRFLOW_MCP_READ_ONLY=true`): `trigger_dag_run`,
+`set_dag_paused`, `clear_task_instances` (supports `dry_run` to preview).
 
 ## Configuration
 
@@ -56,14 +60,15 @@ Once published, this simplifies to `"command": "uvx", "args": ["airflow-mcp-serv
 ## Development
 
 ```bash
-uv sync            # install deps
-uv run pytest      # run the test suite
+uv sync                # install deps
+uv run pytest          # unit tests (mocked, no network)
+uv run pytest -m e2e   # opt-in live test; needs a .env pointing at a real Airflow 2
 uv run airflow-mcp-server   # run the server (expects an MCP client on stdio)
 ```
 
 ## Roadmap
 
 1. Foundation + connectivity (version, health). **done**
-2. Read tools: DAGs, DAG runs, task instances, logs, import errors, pools.
-3. Safe writes: trigger DAG, pause/unpause, clear/retry tasks (gated by read-only).
+2. Read tools: DAGs, DAG runs, task instances, logs, import errors, pools. **done**
+3. Safe writes: trigger DAG, pause/unpause, clear/retry tasks (gated by read-only). **done**
 4. Variables (with secret masking), packaging, publish.
