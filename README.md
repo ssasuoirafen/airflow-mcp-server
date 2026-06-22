@@ -16,14 +16,10 @@ Working read and write tools against Airflow 2; not yet published.
 
 **Read:** `get_airflow_version`, `get_airflow_health`, `list_pools`,
 `list_dags`, `get_dag`, `list_dag_runs`, `get_dag_run`, `list_task_instances`,
-`get_task_instance`, `get_task_logs`, `list_import_errors`, `list_variables`,
-`get_variable`.
+`get_task_instance`, `get_task_logs`, `list_import_errors`.
 
 **Write** (refused when `AIRFLOW_MCP_READ_ONLY=true`): `trigger_dag_run`,
 `set_dag_paused`, `clear_task_instances` (supports `dry_run` to preview).
-
-> Variable values can hold secrets. Airflow masks values for sensitive-looking
-> keys, but values stored under ordinary key names are returned as-is.
 
 ## Configuration
 
@@ -75,7 +71,7 @@ uv run airflow-mcp-server   # run the server (expects an MCP client on stdio)
 1. Foundation + connectivity (version, health). **done**
 2. Read tools: DAGs, DAG runs, task instances, logs, import errors, pools. **done**
 3. Safe writes: trigger DAG, pause/unpause, clear/retry tasks (gated by read-only). **done**
-4. Variables (read) + packaging metadata and LICENSE. **done**
+4. Packaging metadata and LICENSE. **done**
 5. Publish to PyPI. *pending*
 
 ## License

@@ -155,19 +155,3 @@ class Pool(BaseModel):
 class PoolList(BaseModel):
     pools: list[Pool] = []
     total_entries: int = 0
-
-
-# --------------------------------------------------------------------------- #
-# Variables
-# --------------------------------------------------------------------------- #
-
-
-class Variable(BaseModel):
-    key: str
-    value: str | None = None
-    description: str | None = None
-
-
-class VariableList(BaseModel):
-    variables: list[Variable] = []
-    total_entries: int = 0
