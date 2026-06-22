@@ -139,3 +139,27 @@ def test_list_pools(httpx_mock: HTTPXMock) -> None:
     pool = result.pools[0]
     assert pool.name == "default_pool"
     assert pool.open_slots == 120
+
+
+def test_list_variables(httpx_mock: HTTPXMock) -> None:
+    httpx_mock.add_response(
+        json={
+            "variables": [{"key": "env", "value": "prod", "description": "stage"}],
+            "total_entries": 1,
+        }
+    )
+    with _client() as client:
+        result = client.list_variables()
+    var = result.variables[0]
+    assert var.key == "env"
+    assert var.value == "prod"
+
+
+def test_get_variable_encodes_key(httpx_mock: HTTPXMock) -> None:
+    httpx_mock.add_response(json={"key": "a/b", "value": "v"})
+    with _client() as client:
+        var = client.get_variable("a/b")
+    assert var.value == "v"
+    req = httpx_mock.get_request()
+    assert req is not None
+    assert "/api/v1/variables/a%2Fb" in str(req.url)

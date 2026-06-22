@@ -4,6 +4,21 @@ version = "0.1.0"
 description = "MCP server for Apache Airflow 2 over the REST API"
 readme = "README.md"
 requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "ssasuoirafen", email = "43444250+ssasuoirafen@users.noreply.github.com" },
+]
+keywords = ["airflow", "mcp", "model-context-protocol", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Monitoring",
+    "Topic :: Software Development :: Libraries",
+]
 dependencies = [
     "fastmcp>=3.4.2",
     "httpx>=0.28.1",

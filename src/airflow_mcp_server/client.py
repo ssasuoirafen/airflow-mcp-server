@@ -30,6 +30,8 @@ from .models import (
     PoolList,
     TaskInstance,
     TaskInstanceList,
+    Variable,
+    VariableList,
     VersionInfo,
 )
 
@@ -236,6 +238,17 @@ class AirflowClient:
     def list_pools(self, *, limit: int = 50, offset: int = 0) -> PoolList:
         params = _params(limit=limit, offset=offset)
         return PoolList.model_validate(self._request("GET", "/pools", params=params))
+
+    def list_variables(self, *, limit: int = 50, offset: int = 0) -> VariableList:
+        params = _params(limit=limit, offset=offset)
+        return VariableList.model_validate(
+            self._request("GET", "/variables", params=params)
+        )
+
+    def get_variable(self, key: str) -> Variable:
+        return Variable.model_validate(
+            self._request("GET", f"/variables/{_seg(key)}")
+        )
 
     # ---- writes -------------------------------------------------------------
 

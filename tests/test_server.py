@@ -27,5 +27,7 @@ def test_expected_tools_are_registered() -> None:
         "trigger_dag_run",
         "set_dag_paused",
         "clear_task_instances",
+        "list_variables",
+        "get_variable",
     }
     assert expected <= names
