@@ -1,0 +1,32 @@
+[project]
+name = "airflow-mcp-server"
+version = "0.1.0"
+description = "MCP server for Apache Airflow 2 over the REST API"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=3.4.2",
+    "httpx>=0.28.1",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.2",
+]
+
+[project.scripts]
+airflow-mcp-server = "airflow_mcp_server:main"
+
+[build-system]
+requires = ["uv_build>=0.10.9,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-httpx>=0.36.2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not e2e'"
+markers = [
+    "e2e: live test that hits a real Airflow (deselected by default; run with -m e2e)",
+]
