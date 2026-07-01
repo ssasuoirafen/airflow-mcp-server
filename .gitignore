@@ -1,20 +1,25 @@
+# Environment
+.env*
+*.session
+
+# IDE
+.idea/
+.vscode/
+
 # Python
-__pycache__/
-*.py[cod]
 *.egg-info/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+__pycache__/
 build/
 dist/
 
-# Virtual env / tooling caches
-.venv/
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
+# Working artifacts
+.local/
 
-# Secrets / local config
-.env
-
-# IDE / OS
-.idea/
-.vscode/
-.DS_Store
+# AI tooling
+CLAUDE.local.md
+.claude/settings.local.json
+.mcp.json
