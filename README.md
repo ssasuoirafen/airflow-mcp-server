@@ -19,7 +19,8 @@ Working read and write tools against Airflow 2; not yet published.
 `get_task_instance`, `get_task_logs`, `list_import_errors`.
 
 **Write** (refused when `AIRFLOW_MCP_READ_ONLY=true`): `trigger_dag_run`,
-`set_dag_paused`, `clear_task_instances` (supports `dry_run` to preview).
+`set_dag_paused`, `clear_task_instances` (supports `dry_run` to preview, and
+reopens a finished DAG run by default so cleared tasks actually get scheduled).
 
 ## Configuration
 

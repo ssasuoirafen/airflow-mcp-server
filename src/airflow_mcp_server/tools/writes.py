@@ -67,6 +67,7 @@ def clear_task_instances(
     include_downstream: bool = False,
     include_upstream: bool = False,
     only_failed: bool = False,
+    reset_dag_runs: bool = True,
     dry_run: bool = False,
 ) -> TaskInstanceList:
     """Clear task instances so they re-run (retry).
@@ -82,6 +83,10 @@ def clear_task_instances(
         include_downstream: Also clear downstream tasks.
         include_upstream: Also clear upstream tasks.
         only_failed: Only clear failed task instances.
+        reset_dag_runs: Reopen a finished DAG run so the scheduler picks the
+            cleared tasks up. Airflow only touches runs already in a finished
+            state, so this is inert on a run that is still going. Without it a
+            clear on a finished run resets the tasks but nothing ever starts.
         dry_run: If True, report what would be cleared without doing it.
     """
     with airflow_errors():
@@ -93,5 +98,6 @@ def clear_task_instances(
             include_downstream=include_downstream,
             include_upstream=include_upstream,
             only_failed=only_failed,
+            reset_dag_runs=reset_dag_runs,
             dry_run=dry_run,
         )

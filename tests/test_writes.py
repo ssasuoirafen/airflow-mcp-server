@@ -78,6 +78,32 @@ def test_clear_task_instances_dry_run(httpx_mock: HTTPXMock) -> None:
     assert body["dag_run_id"] == "r1"
 
 
+def test_clear_task_instances_reopens_finished_run_by_default(
+    httpx_mock: HTTPXMock,
+) -> None:
+    """The REST API defaults reset_dag_runs to False, which leaves a finished
+    run terminal and its cleared tasks unscheduled. Send it explicitly."""
+    httpx_mock.add_response(json={"task_instances": []})
+    with _client() as client:
+        client.clear_task_instances("etl", dag_run_id="r1")
+
+    req = httpx_mock.get_request()
+    assert req is not None
+    assert json.loads(req.content)["reset_dag_runs"] is True
+
+
+def test_clear_task_instances_reset_dag_runs_can_be_disabled(
+    httpx_mock: HTTPXMock,
+) -> None:
+    httpx_mock.add_response(json={"task_instances": []})
+    with _client() as client:
+        client.clear_task_instances("etl", dag_run_id="r1", reset_dag_runs=False)
+
+    req = httpx_mock.get_request()
+    assert req is not None
+    assert json.loads(req.content)["reset_dag_runs"] is False
+
+
 def test_require_writable_blocks_in_read_only(monkeypatch: pytest.MonkeyPatch) -> None:
     from fastmcp.exceptions import ToolError
 

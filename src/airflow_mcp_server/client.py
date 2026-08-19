@@ -269,6 +269,7 @@ class AirflowClient:
         include_downstream: bool = False,
         include_upstream: bool = False,
         only_failed: bool = False,
+        reset_dag_runs: bool = True,
         dry_run: bool = False,
     ) -> TaskInstanceList:
         body: dict[str, Any] = {
@@ -276,6 +277,7 @@ class AirflowClient:
             "include_downstream": include_downstream,
             "include_upstream": include_upstream,
             "only_failed": only_failed,
+            "reset_dag_runs": reset_dag_runs,
         }
         if dag_run_id is not None:
             body["dag_run_id"] = dag_run_id
