@@ -18,13 +18,17 @@ def get_task_logs(
     """Read the log for one task attempt.
 
     Task logs can be large, so by default only the trailing portion is returned
-    (where the error and traceback usually are).
+    (where the error and traceback usually are). Mapped task instances
+    (map_index >= 0 in list_task_instances) are not supported: Airflow answers
+    404 for them.
 
     Args:
         dag_id: The DAG.
         dag_run_id: The run.
         task_id: The task.
-        try_number: Which attempt (1-based); retried tasks have more than one.
+        try_number: Which attempt (1-based). Defaults to 1, the first attempt;
+            a retried task's latest attempt is the try_number reported by
+            list_task_instances or get_task_instance.
         tail_chars: Return at most this many trailing characters. 0 = full log.
     """
     with airflow_errors():

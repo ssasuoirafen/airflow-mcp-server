@@ -25,6 +25,11 @@ def get_airflow_health() -> HealthStatus:
 
 @mcp.tool(annotations={"readOnlyHint": True})
 def list_pools(limit: int = 50, offset: int = 0) -> PoolList:
-    """List worker pools with their slot usage (occupied/running/queued/open)."""
+    """List worker pools with their slot usage (occupied/running/queued/open).
+
+    Args:
+        limit: Max pools to return (Airflow caps this at 100).
+        offset: Pools to skip, for paging.
+    """
     with airflow_errors():
         return get_client().list_pools(limit=limit, offset=offset)

@@ -31,6 +31,15 @@ def list_task_instances(
 
 @mcp.tool(annotations={"readOnlyHint": True})
 def get_task_instance(dag_id: str, dag_run_id: str, task_id: str) -> TaskInstance:
-    """Get a single task instance by dag_id, dag_run_id, and task_id."""
+    """Get one task instance: state, try_number, timings, and operator.
+
+    Mapped task instances (map_index >= 0 in list_task_instances) are not
+    supported: Airflow answers 404 for them.
+
+    Args:
+        dag_id: The DAG.
+        dag_run_id: The run id as listed by list_dag_runs.
+        task_id: The task id as listed by list_task_instances.
+    """
     with airflow_errors():
         return get_client().get_task_instance(dag_id, dag_run_id, task_id)

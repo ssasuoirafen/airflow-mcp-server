@@ -31,6 +31,12 @@ def list_dag_runs(
 
 @mcp.tool(annotations={"readOnlyHint": True})
 def get_dag_run(dag_id: str, dag_run_id: str) -> DagRun:
-    """Get a single DAG run by dag_id and dag_run_id."""
+    """Get a single DAG run by dag_id and dag_run_id.
+
+    Args:
+        dag_id: The DAG.
+        dag_run_id: The run id as listed by list_dag_runs, e.g.
+            "scheduled__2026-09-24T00:00:00+00:00".
+    """
     with airflow_errors():
         return get_client().get_dag_run(dag_id, dag_run_id)

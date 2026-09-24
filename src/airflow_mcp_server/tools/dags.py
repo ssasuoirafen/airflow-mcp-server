@@ -38,7 +38,14 @@ def list_dags(
 
 @mcp.tool(annotations={"readOnlyHint": True})
 def get_dag(dag_id: str) -> DagSummary:
-    """Get a single DAG's details by dag_id."""
+    """Get one DAG's pause state, schedule, owners, tags, next run, and file.
+
+    Returns the same fields as a list_dags entry - no task list or run history
+    (list_dag_runs has runs).
+
+    Args:
+        dag_id: The exact DAG id (list_dags finds ids by substring).
+    """
     with airflow_errors():
         return get_client().get_dag(dag_id)
 
@@ -48,6 +55,10 @@ def list_import_errors(limit: int = 50, offset: int = 0) -> ImportErrorList:
     """List DAG import errors (parse failures), with filename and stack trace.
 
     The quickest way to find why a DAG is missing from the list or broken.
+
+    Args:
+        limit: Max entries to return (Airflow caps this at 100).
+        offset: Entries to skip, for paging.
     """
     with airflow_errors():
         return get_client().list_import_errors(limit=limit, offset=offset)
