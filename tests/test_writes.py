@@ -69,6 +69,7 @@ def test_clear_task_instances_dry_run(httpx_mock: HTTPXMock) -> None:
         )
 
     assert result.task_instances[0].task_id == "t1"
+    assert result.total_entries == 1
     req = httpx_mock.get_request()
     assert req is not None and req.method == "POST"
     assert req.url.path == "/api/v1/dags/etl/clearTaskInstances"

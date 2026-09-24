@@ -286,7 +286,10 @@ class AirflowClient:
         data = self._request(
             "POST", f"/dags/{_seg(dag_id)}/clearTaskInstances", json=body
         )
-        return TaskInstanceList.model_validate(data)
+        result = TaskInstanceList.model_validate(data)
+        # clearTaskInstances returns task instance references only, without total_entries.
+        result.total_entries = len(result.task_instances)
+        return result
 
     # ---- guard --------------------------------------------------------------
 
