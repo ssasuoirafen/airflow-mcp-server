@@ -9,4 +9,4 @@
 - `uv sync`, then `uv run pytest -q`. End-to-end tests hit a real Airflow and are deselected by the pytest addopts, so run them deliberately when they matter.
 - Releases are consumed as `uvx --from git+https://...@vX.Y.Z`, so the git tag and the version in `pyproject.toml` must agree. CI enforces this on tags; bump the version in the same change that gets tagged.
 - `.env` is ignored and points at a local Airflow. `.env.example` is the tracked template and carries no real values.
-- `.python-version` pins 3.13 and is tracked on purpose, while `pyproject.toml` still supports 3.11 and up. Changing either floor means changing both deliberately.
+- `.python-version` pins 3.14 and is tracked on purpose, while `pyproject.toml` still supports 3.11 and up. Changing either floor means changing both deliberately.
